@@ -1,9 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.max
-import kotlin.math.sqrt
+import lesson8.task2.bishopMoveNumber
+import kotlin.math.*
 
 /**
  * Пример
@@ -62,7 +63,18 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+
+    // Check for exceptions
+    if (age % 100 in 11..14) return "$age лет"
+
+    // Check number on which age ends
+    return when (age % 10) {
+        1 -> "$age год"
+        in 2..4 -> "$age года"
+        else -> "$age лет"
+    }
+}
 
 /**
  * Простая
@@ -73,7 +85,27 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+
+    // Calculate each segment of a way and a half of a way
+    val way1 = t1 * v1
+    val way2 = t2 * v2
+    val way3 = t3 * v3
+
+    val halfWay = (way1 + way2 + way3) / 2
+
+    return when {
+        // If half of a way is shorter than first segment, then calculate
+        halfWay < way1 -> halfWay / v1
+
+        // If half of a way is shorter than first and second segment, but longer than first segment
+        halfWay < (way1 + way2) -> (halfWay - way1) / v2 + t1
+
+        // If half of a way is shorter than all way, but longer than first and second segment
+        else -> (halfWay - (way1 + way2)) / v3 + t1 + t2
+    }
+
+}
 
 /**
  * Простая
@@ -86,7 +118,22 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+
+    // Check for a king from first rook
+    val firstRookCheck = ((kingX == rookX1) || (kingY == rookY1))
+
+    // Check for a king from second rook
+    val secondRookCheck = ((kingX == rookX2) || (kingY == rookY2))
+
+    return when {
+        firstRookCheck && secondRookCheck -> 3
+        secondRookCheck -> 2
+        firstRookCheck -> 1
+        else -> 0
+    }
+
+}
 
 /**
  * Простая
@@ -100,7 +147,21 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+
+    // Check for a king from bishop
+    val bishopCheckToKing = (abs(kingX - bishopX) == abs(kingY - bishopY))
+
+    // Check for a king from rook
+    val rookCheckToKing = ((kingX == rookX) || (kingY == rookY))
+
+    return when {
+        bishopCheckToKing && rookCheckToKing -> 3
+        bishopCheckToKing -> 2
+        rookCheckToKing -> 1
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -110,7 +171,39 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    // Check for existence
+    if ((a > b + c) || (b > a + c) || (c > a + b)) return -1
+
+
+    if ((c > a) && (c > b)) {
+
+        // If c is the largest side of triangle
+        return when {
+            c.pow(2) < a.pow(2) + b.pow(2) -> 0
+            c.pow(2) == a.pow(2) + b.pow(2) -> 1
+            else -> 2
+        }
+
+    } else if ((b > a) && (b > c)) {
+
+        // If b is the largest side of triangle
+        return when {
+            b.pow(2) < a.pow(2) + c.pow(2) -> 0
+            b.pow(2) == a.pow(2) + c.pow(2) -> 1
+            else -> 2
+        }
+
+    } else {
+
+        // If a is the largest side of triangle
+        return when {
+            a.pow(2) < c.pow(2) + b.pow(2) -> 0
+            a.pow(2) == c.pow(2) + b.pow(2) -> 1
+            else -> 2
+        }
+    }
+}
 
 /**
  * Средняя
@@ -120,4 +213,15 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+
+    // If the ends of a segments never cross
+    (c > b) || (a > d) -> -1
+
+    // if the ends of a segments cross in one point
+    (b == c) || (d == a) -> 0
+
+    // Calculate the intersection
+    (b < d) -> b - max(a, c)
+    else -> d - max(c, a)
+}
