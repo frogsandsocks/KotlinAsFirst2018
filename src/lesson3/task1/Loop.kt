@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -38,7 +41,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -66,7 +69,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var result = 1
+    var remainder = n
+
+    while (remainder > 9) {
+        remainder /= 10
+        result += 1
+    }
+
+    return result
+}
 
 /**
  * Простая
@@ -74,7 +87,23 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+
+fun fib(n: Int): Int {
+
+    var previous = 0
+    var result = 1
+    var buffer = 0
+
+    if (n > 1) {
+        for (i in 2..n) {
+            buffer = previous + result
+            previous = result
+            result = buffer
+        }
+    }
+
+    return result
+}
 
 /**
  * Простая
@@ -82,7 +111,23 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+
+    var maxValue = max(m, n)
+    var minValue = min(m, n)
+
+    if ((maxValue.toDouble() % minValue.toDouble()) == 0.0) return maxValue
+
+    var maxValueMultiplicator = 2
+
+    while (true) {
+        if ((maxValue * maxValueMultiplicator).toDouble() % minValue.toDouble() == 0.0) {
+            return maxValue * maxValueMultiplicator
+        } else {
+            maxValueMultiplicator++
+        }
+    }
+}
 
 /**
  * Простая
@@ -203,3 +248,7 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+
+fun main(args: Array<String>) {
+    println(lcm(13, 13))
+}
