@@ -2,9 +2,7 @@
 
 package lesson3.task1
 
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Пример
@@ -14,7 +12,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -92,7 +90,7 @@ fun fib(n: Int): Int {
 
     var previous = 0
     var result = 1
-    var buffer = 0
+    var buffer: Int
 
     if (n > 1) {
         for (i in 2..n) {
@@ -113,8 +111,8 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
 
-    var maxValue = max(m, n)
-    var minValue = min(m, n)
+    val maxValue = max(m, n)
+    val minValue = min(m, n)
 
     if ((maxValue.toDouble() % minValue.toDouble()) == 0.0) return maxValue
 
@@ -134,14 +132,47 @@ fun lcm(m: Int, n: Int): Int {
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+
+    return if (n.toDouble() % 2.0 == 0.0) 2
+    else {
+
+        var minDivider = 3
+
+        while (n.toDouble() % minDivider.toDouble() != 0.0) {
+            minDivider += 2
+        }
+
+        minDivider
+    }
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+// ????????????????????????????????????????????????
+
+fun maxDivisor(n: Int): Int {
+
+    var maxDivisor = 1
+
+    if (n.toDouble() % 2.0 == 0.0) return n / 2
+    else {
+        for (i in n / 2 downTo 2) {
+            if (n.toDouble() % i.toDouble() == 0.0) {
+                maxDivisor = i
+                break
+            }
+        }
+    }
+
+    return maxDivisor
+}
+
+// ???????????????????????????????????????????????
+
 
 /**
  * Простая
@@ -150,7 +181,21 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+
+    val minValue = min(m, n)
+    val maxValue = max(m, n)
+
+    if ((m.toDouble() % 2.0 == 0.0) && (n.toDouble() % 2.0 == 0.0)) return false
+    else if (maxValue.toDouble() % minValue.toDouble() == 0.0) return false
+    else {
+        for (i in (minValue / 2) downTo 2) {
+            if ((m.toDouble() % i.toDouble() == 0.0) && (n.toDouble() % i.toDouble() == 0.0)) return false
+        }
+    }
+
+    return true
+}
 
 /**
  * Простая
@@ -159,7 +204,21 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+
+    val nSquareRoot = sqrt(n.toDouble())
+    val mSquareRoot = sqrt(m.toDouble())
+
+    val squareRootsDifference = nSquareRoot - mSquareRoot
+
+    if (squareRootsDifference == 0.0) return true
+
+    if ((nSquareRoot.toInt() * nSquareRoot.toInt() >= m) && (nSquareRoot.toInt() * nSquareRoot.toInt() <= n)) {
+        return true
+    }
+
+    return false
+}
 
 /**
  * Средняя
@@ -177,7 +236,19 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+
+    var buffer = x
+    var stepsCounter = 0
+
+    while (buffer > 1) {
+        if (buffer.toDouble() % 2 == 0.0) buffer /= 2
+        else buffer = 3 * buffer + 1
+        stepsCounter++
+    }
+
+    return stepsCounter
+}
 
 /**
  * Средняя
@@ -204,7 +275,36 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+
+fun numbersCount(n: Int): Int {
+
+    var nNumbersCountBuffer = n
+    var nNumbersCounter = 0
+
+    while (nNumbersCountBuffer > 0) {
+        nNumbersCountBuffer /= 10
+        nNumbersCounter++
+    }
+
+    return nNumbersCounter
+}
+
+fun revert(n: Int): Int {
+
+    var revertMultiplicator = numbersCount(n) - 1
+    var buffer = n
+    var result = 0
+
+    while (buffer > 0) {
+
+        result += (buffer % 10) * 10.toDouble().pow(revertMultiplicator).toInt()
+        buffer /= 10
+
+        revertMultiplicator--
+    }
+
+    return result
+}
 
 /**
  * Средняя
@@ -249,6 +349,9 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
 
+
 fun main(args: Array<String>) {
-    println(lcm(13, 13))
+    val result = revert(1234)
+
+    println(result)
 }
