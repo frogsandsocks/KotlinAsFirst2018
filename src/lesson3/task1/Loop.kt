@@ -276,35 +276,36 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 
-fun numbersCount(n: Int): Int {
+fun numberLength(number: Int): Int {
 
-    var nNumbersCountBuffer = n
-    var nNumbersCounter = 0
+    var numberRemainderBuffer = number
+    var numberLengthCounter = 0
 
-    while (nNumbersCountBuffer > 0) {
-        nNumbersCountBuffer /= 10
-        nNumbersCounter++
+    while (numberRemainderBuffer > 0) {
+        numberRemainderBuffer /= 10
+        numberLengthCounter++
     }
 
-    return nNumbersCounter
+    return numberLengthCounter
 }
 
 fun revert(n: Int): Int {
 
-    var revertMultiplicator = numbersCount(n) - 1
+    var revertMultiplier = numberLength(n) - 1
     var buffer = n
     var result = 0
 
     while (buffer > 0) {
 
-        result += (buffer % 10) * 10.toDouble().pow(revertMultiplicator).toInt()
+        result += (buffer % 10) * 10.toDouble().pow(revertMultiplier).toInt()
         buffer /= 10
 
-        revertMultiplicator--
+        revertMultiplier--
     }
 
     return result
 }
+
 
 /**
  * Средняя
@@ -315,7 +316,23 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+
+fun isPalindrome(n: Int): Boolean {
+
+    val nNumbersCount = numberLength(n)
+
+    if (nNumbersCount == 1) return true
+
+    var nFirstPart = n / (10.toDouble().pow(nNumbersCount / 2).toInt())
+    val nSecondPart = n % (10.toDouble().pow(nNumbersCount / 2).toInt())
+
+    if (nNumbersCount % 2 != 0) nFirstPart /= 10
+
+    var nFirstPartReversed = revert(nFirstPart)
+
+    return nFirstPartReversed == nSecondPart
+}
+
 
 /**
  * Средняя
@@ -325,7 +342,20 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+
+fun hasDifferentDigits(n: Int): Boolean {
+
+    val nDigit = n % 10
+    var buffer = n
+
+    while (buffer > 0) {
+        if (nDigit != buffer % 10) return true
+        buffer /= 10
+    }
+
+    return false
+}
+
 
 /**
  * Сложная
@@ -336,7 +366,24 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+
+fun squareSequenceDigit(n: Int): Int {
+
+    var sequenceLength = 0
+    var integersSequenceIterator = 0
+    var integersSequenceIteratorSquare = 0
+
+    while (sequenceLength < n) {
+
+        integersSequenceIterator++
+        integersSequenceIteratorSquare = integersSequenceIterator * integersSequenceIterator
+
+        sequenceLength += numberLength(integersSequenceIteratorSquare)
+    }
+
+    return (integersSequenceIteratorSquare / 10.0.pow(sequenceLength - n).toInt()) % 10
+}
+
 
 /**
  * Сложная
@@ -347,11 +394,29 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+
+    var fibSequenceLength = 1
+    var fibSequenceIterator = 1
+    var fibSequencePreviousItem = 0
+    var buffer: Int
+
+    while (fibSequenceLength < n) {
+
+        buffer = fibSequenceIterator
+
+        fibSequenceIterator += fibSequencePreviousItem
+        fibSequencePreviousItem = buffer
+
+        fibSequenceLength += numberLength(fibSequenceIterator)
+    }
+
+    return (fibSequenceIterator / 10.0.pow(fibSequenceLength - n).toInt()) % 10
+}
 
 
 fun main(args: Array<String>) {
-    val result = revert(1234)
+    val result = squareSequenceDigit(2)
 
     println(result)
 }
