@@ -68,6 +68,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
+
     var result = 1
     var remainder = n
 
@@ -94,6 +95,7 @@ fun fib(n: Int): Int {
 
     if (n > 1) {
         for (i in 2..n) {
+
             buffer = previous + result
             previous = result
             result = buffer
@@ -109,6 +111,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+
 fun lcm(m: Int, n: Int): Int {
 
     val maxValue = max(m, n)
@@ -132,6 +135,7 @@ fun lcm(m: Int, n: Int): Int {
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
+
 fun minDivisor(n: Int): Int {
 
     return if (n.toDouble() % 2.0 == 0.0) 2
@@ -147,12 +151,12 @@ fun minDivisor(n: Int): Int {
     }
 }
 
+
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-// ????????????????????????????????????????????????
 
 fun maxDivisor(n: Int): Int {
 
@@ -171,8 +175,6 @@ fun maxDivisor(n: Int): Int {
     return maxDivisor
 }
 
-// ???????????????????????????????????????????????
-
 
 /**
  * Простая
@@ -190,6 +192,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     else if (maxValue.toDouble() % minValue.toDouble() == 0.0) return false
     else {
         for (i in (minValue / 2) downTo 2) {
+
             if ((m.toDouble() % i.toDouble() == 0.0) && (n.toDouble() % i.toDouble() == 0.0)) return false
         }
     }
@@ -209,9 +212,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     val nSquareRoot = sqrt(n.toDouble())
     val mSquareRoot = sqrt(m.toDouble())
 
-    val squareRootsDifference = nSquareRoot - mSquareRoot
-
-    if (squareRootsDifference == 0.0) return true
+    if (nSquareRoot - mSquareRoot == 0.0) return true
 
     if ((nSquareRoot.toInt() * nSquareRoot.toInt() >= m) && (nSquareRoot.toInt() * nSquareRoot.toInt() <= n)) {
         return true
@@ -319,16 +320,16 @@ fun revert(n: Int): Int {
 
 fun isPalindrome(n: Int): Boolean {
 
-    val nNumbersCount = numberLength(n)
+    val nNumbersLength = numberLength(n)
 
-    if (nNumbersCount == 1) return true
+    if (nNumbersLength == 1) return true
 
-    var nFirstPart = n / (10.toDouble().pow(nNumbersCount / 2).toInt())
-    val nSecondPart = n % (10.toDouble().pow(nNumbersCount / 2).toInt())
+    var nFirstPart = n / (10.toDouble().pow(nNumbersLength / 2).toInt())
+    val nSecondPart = n % (10.toDouble().pow(nNumbersLength / 2).toInt())
 
-    if (nNumbersCount % 2 != 0) nFirstPart /= 10
+    if (nNumbersLength % 2 != 0) nFirstPart /= 10
 
-    var nFirstPartReversed = revert(nFirstPart)
+    val nFirstPartReversed = revert(nFirstPart)
 
     return nFirstPartReversed == nSecondPart
 }
@@ -412,11 +413,4 @@ fun fibSequenceDigit(n: Int): Int {
     }
 
     return (fibSequenceIterator / 10.0.pow(fibSequenceLength - n).toInt()) % 10
-}
-
-
-fun main(args: Array<String>) {
-    val result = squareSequenceDigit(2)
-
-    println(result)
 }
