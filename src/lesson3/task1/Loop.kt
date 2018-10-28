@@ -70,7 +70,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
 
     var result = 1
-    var remainder = n
+    var remainder = abs(n)
 
     while (remainder > 9) {
         remainder /= 10
@@ -189,6 +189,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     val maxValue = max(m, n)
 
     if ((m.toDouble() % 2.0 == 0.0) && (n.toDouble() % 2.0 == 0.0)) return false
+    else if ((m == 1) or (n == 1)) return true
     else if (maxValue.toDouble() % minValue.toDouble() == 0.0) return false
     else {
         for (i in (minValue / 2) downTo 2) {

@@ -258,7 +258,7 @@ fun convert(n: Int, base: Int): List<Int> {
         buffer /= base
     }
 
-    return nConverted.reversed()
+    return if (n > 0) nConverted.reversed() else listOf(0)
 }
 
 /**
