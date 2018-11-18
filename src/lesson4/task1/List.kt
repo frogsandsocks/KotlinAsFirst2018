@@ -116,17 +116,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-
-    return if (v.isEmpty()) 0.0
-    else {
-
-        sqrt(
-                v.fold(0.0) { previousResult, element ->
-                    previousResult + element.pow(2)
-                })
-    }
-}
+fun abs(v: List<Double>): Double = sqrt(v.sumByDouble { it * it })
 
 
 /**
@@ -164,12 +154,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 
-fun times(a: List<Double>, b: List<Double>): Double {
-
-    val result = a.zip(b) { aCoordinate, bCoordinate -> aCoordinate * bCoordinate }
-
-    return result.sum()
-}
+fun times(a: List<Double>, b: List<Double>): Double = a
+        .zip(b) { aCoordinate, bCoordinate -> aCoordinate * bCoordinate }
+        .sum()
 
 
 /**
@@ -178,7 +165,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Рассчитать значение многочлена при заданном x:
  * p(x) = p0 + p1*x + p2*x^2 + p3*x^3 + ... + pN*x^N.
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
- * Значение пустого многочлена равно 0.0 при любом x.
+ * Значение пустого многочлена равно 0.0 при любом x.я
  */
 
 fun polynom(p: List<Double>, x: Double): Double = p.foldIndexed(0.0) { index, previousItem, item ->
@@ -197,13 +184,13 @@ fun polynom(p: List<Double>, x: Double): Double = p.foldIndexed(0.0) { index, pr
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
 
-    for (i in list.lastIndex downTo 1) {
-        val list2 = list.subList(0, i + 1)
-        list[i] = list2.sum()
+    for (i in 1..list.lastIndex) {
+        list[i] += list[i - 1]
     }
 
     return list
 }
+
 
 /**
  * Средняя
@@ -215,10 +202,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
 
     var remainder = n.toDouble()
-    var dividers = mutableListOf<Int>()
-    var integersIterator = 2
+    val dividers = mutableListOf<Int>()
+    var integersIterator = if (n % 2.0 == 0.0) 2 else 3
 
-    while (remainder > 1) {
+    val adder = if (n % 2.0 == 0.0) 1 else 2
+
+
+    while ((remainder > 1) && (integersIterator < n / 2)) {
 
         while (remainder % integersIterator == 0.0) {
 
@@ -226,7 +216,11 @@ fun factorize(n: Int): List<Int> {
             dividers.add(integersIterator)
         }
 
-        integersIterator++
+        integersIterator += adder
+    }
+
+    if (dividers.isEmpty()) {
+        dividers.add(n)
     }
 
     return dividers.sorted()
@@ -250,7 +244,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  */
 fun convert(n: Int, base: Int): List<Int> {
 
-    var nConverted = mutableListOf<Int>()
+    val nConverted = mutableListOf<Int>()
     var buffer = n
 
     while (buffer > 0) {
@@ -307,14 +301,13 @@ fun decimalFromString(str: String, base: Int): Int {
 
     val lettersList = ('a'..'z')
 
+
     val integersList = str.map {
         if (it in ('0'..'9')) it.toString().toInt()
         else lettersList.indexOf(it) + 10
     }
 
-    return integersList.foldIndexed(0) { index, previousResult, item ->
-        previousResult + item * base.toDouble().pow(integersList.lastIndex - index).toInt()
-    }
+    return decimal(integersList, base)
 }
 
 /**
@@ -325,7 +318,25 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+
+    val numbers = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val numbersToString = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    var numbersIndex = 0
+    var buffer = n
+    var result = ""
+
+    while (numbersIndex < 13) {
+        if (buffer - numbers[numbersIndex] >= 0) {
+            buffer -= numbers[numbersIndex]
+            result += numbersToString[numbersIndex]
+        } else {
+            numbersIndex++
+        }
+    }
+
+    return result
+}
 
 /**
  * Очень сложная

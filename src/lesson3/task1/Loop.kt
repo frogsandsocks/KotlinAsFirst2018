@@ -93,13 +93,11 @@ fun fib(n: Int): Int {
     var result = 1
     var buffer: Int
 
-    if (n > 1) {
-        for (i in 2..n) {
+    for (i in 2..n) {
 
-            buffer = previous + result
-            previous = result
-            result = buffer
-        }
+        buffer = previous + result
+        previous = result
+        result = buffer
     }
 
     return result
@@ -158,22 +156,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 
-fun maxDivisor(n: Int): Int {
-
-    var maxDivisor = 1
-
-    if (n.toDouble() % 2.0 == 0.0) return n / 2
-    else {
-        for (i in n / 2 downTo 2) {
-            if (n.toDouble() % i.toDouble() == 0.0) {
-                maxDivisor = i
-                break
-            }
-        }
-    }
-
-    return maxDivisor
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 
 /**
@@ -293,16 +276,13 @@ fun numberLength(number: Int): Int {
 
 fun revert(n: Int): Int {
 
-    var revertMultiplier = numberLength(n) - 1
-    var buffer = n
     var result = 0
+    var buffer = n
 
     while (buffer > 0) {
-
-        result += (buffer % 10) * 10.toDouble().pow(revertMultiplier).toInt()
+        val digit = buffer % 10
+        result = result * 10 + digit
         buffer /= 10
-
-        revertMultiplier--
     }
 
     return result
