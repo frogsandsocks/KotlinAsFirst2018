@@ -208,7 +208,7 @@ fun factorize(n: Int): List<Int> {
     val adder = if (n % 2 == 0) 1 else 2
 
 
-    while ((remainder > 1) && (integersIterator < n / 2)) {
+    while ((remainder > 1) && (integersIterator <= n / 2)) {
 
         while (remainder % integersIterator == 0.0) {
 
@@ -420,7 +420,7 @@ fun russian(n: Int): String {
         nFirstPart % 10 == 2 -> "${nFirstPartToString.dropLast(3)}две тысячи"
         nFirstPart % 10 in 3..4 -> "${nFirstPartToString}тысячи"
 
-        else -> "${nFirstPartToString}тысяч"
+        else -> "$nFirstPartToString тысяч"
     }
 
     return if (nSecondPart > 0) "$result $nSecondPartToString" else result
