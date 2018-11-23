@@ -203,9 +203,9 @@ fun factorize(n: Int): List<Int> {
 
     var remainder = n.toDouble()
     val dividers = mutableListOf<Int>()
-    var integersIterator = if (n % 2.0 == 0.0) 2 else 3
+    var integersIterator = if (n % 2 == 0) 2 else 3
 
-    val adder = if (n % 2.0 == 0.0) 1 else 2
+    val adder = if (n % 2 == 0) 1 else 2
 
 
     while ((remainder > 1) && (integersIterator < n / 2)) {
@@ -268,10 +268,18 @@ fun convertToString(n: Int, base: Int): String {
 
     val list = convert(n, base)
 
-    return list.joinToString(
-            separator = "",
-            transform = { if (it > 9) (it + 87).toChar().toString() else "$it" }
-    )
+    /*
+    * A correlation between given number more than 9 (for numeral systems
+    * more than decimal) and a char in ASCII code for this number:
+    *
+    * number + baseOffset = ASCII code for number in letter form
+    */
+    val baseOffset = 87
+
+    return list.joinToString(separator = "") {
+        if (it > 9) "${(it + baseOffset).toChar()}"
+        else "$it"
+    }
 }
 
 /**
@@ -299,16 +307,22 @@ fun decimal(digits: List<Int>, base: Int): Int = digits.foldIndexed(0) { index, 
 
 fun decimalFromString(str: String, base: Int): Int {
 
-    val lettersList = ('a'..'z')
-
+    /*
+    * A correlation between given number more than 9 (for numeral systems
+    * more than decimal) and a char in ASCII code for this number:
+    *
+    * ASCII char code for number in letter form - baseOffset = number in decimal form
+    */
+    val baseOffset = 87
 
     val integersList = str.map {
         if (it in ('0'..'9')) it.toString().toInt()
-        else lettersList.indexOf(it) + 10
+        else it.toInt() - baseOffset
     }
 
     return decimal(integersList, base)
 }
+
 
 /**
  * Сложная
@@ -345,4 +359,69 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+
+
+fun hundredsToRussian(n: Int): String {
+
+    val units = mapOf(
+            0 to "", 1 to "один", 2 to "два", 3 to "три",
+            4 to "четыре", 5 to "пять", 6 to "шесть",
+            7 to "семь", 8 to "восемь", 9 to "девять"
+    )
+
+    val fromTenToTwenty = mapOf(
+            11 to "одиннадцать", 12 to "двенадцать", 13 to "тринадцать",
+            14 to "четырнадцать", 15 to "пятнадцать", 16 to "шестнадцать",
+            17 to "семнадцать", 18 to "восемнадцать", 19 to "девятнадцать"
+    )
+
+    val tens = mapOf(
+            0 to "",
+            1 to "десять ", 2 to "двадцать ", 3 to "тридцать ",
+            4 to "сорок ", 5 to "пятьдесят ", 6 to "шестьдесят ",
+            7 to "семьдесят ", 8 to "восемьдесят ", 9 to "девяносто "
+    )
+
+    val hundreds = mapOf(
+            0 to "", 1 to "сто ", 2 to "двести ", 3 to "триста ",
+            4 to "четыреста ", 5 to "пятьсот ", 6 to "шестисот ",
+            7 to "семьсот ", 8 to "восемьсот ", 9 to "девятьсот "
+    )
+
+    val nHundreds = n / 100
+    val nTens = n % 100
+    val nUnits = n % 10
+
+
+    return hundreds[nHundreds] +
+            if (nTens in 11..19) fromTenToTwenty[nTens]
+            else {
+                tens[nTens / 10] + units[nUnits]
+            }
+
+}
+
+
+fun russian(n: Int): String {
+
+    val nSecondPart = n % 1000
+    val nFirstPart = n / 1000
+
+    val nSecondPartToString = hundredsToRussian(nSecondPart)
+    val nFirstPartToString = hundredsToRussian(nFirstPart)
+
+    val result = when {
+
+        nFirstPart == 0 -> return nSecondPartToString
+
+        nFirstPart % 100 in 11..19 -> "$nFirstPartToString тысяч"
+
+        nFirstPart % 10 == 1 -> "${nFirstPartToString.dropLast(4)}одна тысяча"
+        nFirstPart % 10 == 2 -> "${nFirstPartToString.dropLast(3)}две тысячи"
+        nFirstPart % 10 in 3..4 -> "${nFirstPartToString}тысячи"
+
+        else -> "${nFirstPartToString}тысяч"
+    }
+
+    return if (nSecondPart > 0) "$result $nSecondPartToString" else result
+}

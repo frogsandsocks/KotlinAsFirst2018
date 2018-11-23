@@ -171,14 +171,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     val minValue = min(m, n)
     val maxValue = max(m, n)
 
-    if ((m.toDouble() % 2.0 == 0.0) && (n.toDouble() % 2.0 == 0.0)) return false
-    else if ((m == 1) or (n == 1)) return true
-    else if (maxValue.toDouble() % minValue.toDouble() == 0.0) return false
-    else {
-        for (i in (minValue / 2) downTo 2) {
+    if (m == 1 || n == 1) return true
+    if (maxValue % minValue == 0) return false
 
-            if ((m.toDouble() % i.toDouble() == 0.0) && (n.toDouble() % i.toDouble() == 0.0)) return false
-        }
+    for (i in (minValue / 2) downTo 2) {
+
+        if ((m % i == 0) && (n % i == 0)) return false
     }
 
     return true
@@ -299,21 +297,7 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 
-fun isPalindrome(n: Int): Boolean {
-
-    val nNumbersLength = numberLength(n)
-
-    if (nNumbersLength == 1) return true
-
-    var nFirstPart = n / (10.toDouble().pow(nNumbersLength / 2).toInt())
-    val nSecondPart = n % (10.toDouble().pow(nNumbersLength / 2).toInt())
-
-    if (nNumbersLength % 2 != 0) nFirstPart /= 10
-
-    val nFirstPartReversed = revert(nFirstPart)
-
-    return nFirstPartReversed == nSecondPart
-}
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 
 /**
