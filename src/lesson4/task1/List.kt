@@ -384,7 +384,7 @@ fun hundredsToRussian(n: Int): String {
 
     val hundreds = mapOf(
             0 to "", 1 to "сто", 2 to "двести", 3 to "триста",
-            4 to "четыреста", 5 to "пятьсот", 6 to "шестисот",
+            4 to "четыреста", 5 to "пятьсот", 6 to "шестьсот",
             7 to "семьсот", 8 to "восемьсот", 9 to "девятьсот"
     )
 
