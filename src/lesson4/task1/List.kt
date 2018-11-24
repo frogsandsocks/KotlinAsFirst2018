@@ -377,27 +377,26 @@ fun hundredsToRussian(n: Int): String {
 
     val tens = mapOf(
             0 to "",
-            1 to "десять ", 2 to "двадцать ", 3 to "тридцать ",
-            4 to "сорок ", 5 to "пятьдесят ", 6 to "шестьдесят ",
-            7 to "семьдесят ", 8 to "восемьдесят ", 9 to "девяносто "
+            1 to "десять", 2 to "двадцать", 3 to "тридцать",
+            4 to "сорок", 5 to "пятьдесят", 6 to "шестьдесят",
+            7 to "семьдесят", 8 to "восемьдесят", 9 to "девяносто"
     )
 
     val hundreds = mapOf(
-            0 to "", 1 to "сто ", 2 to "двести ", 3 to "триста ",
-            4 to "четыреста ", 5 to "пятьсот ", 6 to "шестисот ",
-            7 to "семьсот ", 8 to "восемьсот ", 9 to "девятьсот "
+            0 to "", 1 to "сто", 2 to "двести", 3 to "триста",
+            4 to "четыреста", 5 to "пятьсот", 6 to "шестисот",
+            7 to "семьсот", 8 to "восемьсот", 9 to "девятьсот"
     )
 
     val nHundreds = n / 100
     val nTens = n % 100
     val nUnits = n % 10
 
+    val nHundredsToString = hundreds[nHundreds]
+    val nTensToString = if (nTens in 11..19) fromTenToTwenty[nTens] else tens[nTens / 10]
+    val nUnitsToString = if (nTens in 11..19) "" else units[nUnits]
 
-    return hundreds[nHundreds] +
-            if (nTens in 11..19) fromTenToTwenty[nTens]
-            else {
-                tens[nTens / 10] + units[nUnits]
-            }
+    return listOf(nHundredsToString, nTensToString, nUnitsToString).filter { it != "" }.joinToString(separator = " ")
 
 }
 
@@ -418,7 +417,7 @@ fun russian(n: Int): String {
 
         nFirstPart % 10 == 1 -> "${nFirstPartToString.dropLast(4)}одна тысяча"
         nFirstPart % 10 == 2 -> "${nFirstPartToString.dropLast(3)}две тысячи"
-        nFirstPart % 10 in 3..4 -> "${nFirstPartToString}тысячи"
+        nFirstPart % 10 in 3..4 -> "$nFirstPartToString тысячи"
 
         else -> "$nFirstPartToString тысяч"
     }
