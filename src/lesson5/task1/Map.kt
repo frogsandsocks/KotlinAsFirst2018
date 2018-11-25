@@ -144,7 +144,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
 
 
-    var stockPricesAverage = mutableMapOf<String, Double>()
+    val stockPricesAverage = mutableMapOf<String, Double>()
 
     stockPrices.forEach { (stockPricesKey, _) ->
 
@@ -255,7 +255,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean =
-        chars.toSet().containsAll(word.toLowerCase().toSet())
+        chars.onEach { it.toLowerCase() }.toSet().containsAll(word.toLowerCase().toSet())
 
 
 /**
@@ -326,7 +326,9 @@ fun hasAnagrams(words: List<String>): Boolean {
 
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 
-    val givenNumbersSet = list.toSet() - number / 2
+    var givenNumbersSet = list.toSet()
+
+    if (number % 2 == 0) givenNumbersSet -=(number / 2)
 
 
     givenNumbersSet.forEach {
@@ -339,6 +341,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 
     return Pair(-1, -1)
 }
+
 
 /**
  * Очень сложная
@@ -360,4 +363,58 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+// from https://neerc.ifmo.ru/wiki/index.php?title=Задача_о_рюкзаке
+
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+
+    val itemsNames = treasures.map { (key, _) -> key }
+    val itemsWeightList = treasures.map { (_, value) -> value.first }
+    val itemsCostList = treasures.map { (_, value) -> value.second }
+
+    val elements = itemsNames.count()
+
+    val maximumCostTable = Array(elements + 1) { IntArray(capacity + 1) }
+
+    for (i in 0..capacity) {
+        maximumCostTable[0][i] = 0
+    }
+
+    for (i in 0..elements) {
+        maximumCostTable[i][0] = 0
+    }
+
+    for (element in 1..elements) {
+
+        for (i in 1..capacity) {
+
+            if (i >= itemsWeightList[element - 1]) {
+
+                maximumCostTable[element][i] = max(maximumCostTable[element - 1][i],
+                        maximumCostTable[element - 1][i - itemsWeightList[element - 1]] +
+                                itemsCostList[element - 1]
+                )
+            } else maximumCostTable[element][i] = maximumCostTable[element - 1][i]
+        }
+    }
+
+    val answer = mutableSetOf<String>()
+
+    fun result(element: Int, i: Int) {
+
+        if (maximumCostTable[element][i] == 0) {
+            return
+        }
+
+        if (maximumCostTable[element - 1][i] == maximumCostTable[element][i]) {
+            result(element - 1, i)
+        } else {
+            result(element - 1, i - itemsWeightList[element - 1])
+            answer.add(itemsNames[element - 1])
+        }
+    }
+
+    result(elements, capacity)
+
+    return answer.toSet()
+
+}
