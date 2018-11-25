@@ -254,9 +254,10 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean =
-        chars.onEach { it.toLowerCase() }.toSet().containsAll(word.toLowerCase().toSet())
 
+
+fun canBuildFrom(chars: List<Char>, word: String): Boolean =
+        chars.map { it.toLowerCase() }.toSet().containsAll(word.toLowerCase().toSet())
 
 /**
  * Средняя
@@ -328,7 +329,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 
     var givenNumbersSet = list.toSet()
 
-    if (number % 2 == 0) givenNumbersSet -=(number / 2)
+    if (number % 2 == 0 && number != 0) givenNumbersSet -= (number / 2)
 
 
     givenNumbersSet.forEach {
