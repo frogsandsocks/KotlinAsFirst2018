@@ -61,16 +61,14 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
 
         substrings.forEach { substring ->
 
-            val matchResult = Regex(substring.toLowerCase()).findAll(line.toLowerCase())
+            val count = line.toLowerCase().split(substring.toLowerCase()).size - 1
 
-            if (matchResult != null) {
-                val count = matchResult.count()
-
-                if (substring in substringsCount) substringsCount[substring] = substringsCount[substring]!! + count
-                else substringsCount[substring] = count
-            }
+            if (substring in substringsCount) substringsCount[substring] = substringsCount[substring]!! + count
+            else substringsCount[substring] = count
         }
     }
+
+    substringsCount.map { if (it.key.length == 2) it.value / 2 }
 
     return substringsCount
 }
@@ -110,9 +108,41 @@ fun sibilants(inputName: String, outputName: String) {
  * 4) Число строк в выходном файле должно быть равно числу строк во входном (в т. ч. пустых)
  *
  */
+
+
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+
+    val lineLongest = File(inputName).readLines()
+            .map { it.trim() }
+            .max()
+            ?.count()
+            ?: 0
+
+    var firstLine = true
+
+    File(outputName).bufferedWriter().use {
+
+        File(inputName).readLines().forEach { line ->
+
+            if (!firstLine) it.newLine()
+            else firstLine = false
+
+            val line = line.trim()
+
+            val lengthDelta = lineLongest - line.length
+
+            var spacesRight = lengthDelta / 2
+            val spacesLeft = lengthDelta / 2
+
+            if (lengthDelta % 2 != 0) spacesRight += 1
+
+            it.write(" ".repeat(spacesLeft))
+            it.write(line)
+        }
+    }
+
 }
+
 
 /**
  * Сложная
