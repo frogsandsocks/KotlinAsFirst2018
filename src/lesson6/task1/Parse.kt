@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
+
 /**
  * Пример
  *
@@ -70,7 +73,33 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+
+
+fun dateStrToDigit(str: String): String {
+
+    val monthsNamesList = listOf(
+            "января", "февраля", "марта",
+            "апреля", "мая", "июня",
+            "июля", "августа", "сентября",
+            "октября", "ноября", "декабря"
+    )
+
+
+    if (!Regex("""(\d+)\s(\S+)\s(\d+)""").matches(str)) return ""
+
+
+    var (day, month, year) = str.split(" ")
+
+
+    val dayMaximumNumber = daysInMonth(monthsNamesList.indexOf(month) + 1, year.toInt())
+
+
+    return if (month in monthsNamesList && day.toInt() <= dayMaximumNumber) {
+
+        String.format("%02d.%02d.%02d", day.toInt(), monthsNamesList.indexOf(month) + 1, year.toInt())
+
+    } else ""
+}
 
 /**
  * Средняя
@@ -120,7 +149,12 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+
+fun bestHighJump(jumps: String): Int = TODO() /*{
+
+    val jumpsList = jumps.split(" ");
+}
+*/
 
 /**
  * Сложная
