@@ -61,14 +61,10 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
 
         substrings.forEach { substring ->
 
-            val matchResult = Regex(substring.toLowerCase()).findAll(line.toLowerCase())
+            val count = line.toLowerCase().split(substring.toLowerCase()).size - 1
 
-            if (matchResult != null) {
-                val count = matchResult.count()
-
-                if (substring in substringsCount) substringsCount[substring] = substringsCount[substring]!! + count
-                else substringsCount[substring] = count
-            }
+            if (substring in substringsCount) substringsCount[substring] = substringsCount[substring]!! + count
+            else substringsCount[substring] = count
         }
     }
 

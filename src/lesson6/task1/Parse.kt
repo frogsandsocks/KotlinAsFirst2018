@@ -39,7 +39,7 @@ fun timeSecondsToStr(seconds: Int): String {
     val hour = seconds / 3600
     val minute = (seconds % 3600) / 60
     val second = seconds % 60
-    return String.format("%02d:%02d:%02d", hour, minute, second)
+    return String.format("%02d:%02d:%d", hour, minute, second)
 }
 
 /**
@@ -150,11 +150,8 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 
-fun bestHighJump(jumps: String): Int = TODO() /*{
+fun bestHighJump(jumps: String): Int = TODO()
 
-    val jumpsList = jumps.split(" ");
-}
-*/
 
 /**
  * Сложная
