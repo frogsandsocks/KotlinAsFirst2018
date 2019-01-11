@@ -96,7 +96,7 @@ fun dateStrToDigit(str: String): String {
 
     return if (month in monthsNamesList && day.toInt() <= dayMaximumNumber) {
 
-        String.format("%02d.%02d.%02d", day.toInt(), monthsNamesList.indexOf(month) + 1, year.toInt())
+        String.format("%02d.%02d.%d", day.toInt(), monthsNamesList.indexOf(month) + 1, year.toInt())
 
     } else ""
 }
