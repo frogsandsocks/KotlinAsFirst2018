@@ -59,16 +59,19 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     /* Result map which contains given substrings and their number of occurrences */
     val substringsCount = mutableMapOf<String, Int>()
 
+    /* Delete repeating elements in substrings list */
+    val substringsList = substrings.distinct()
+
     /* Read lines from given file */
     File(inputName).readLines().forEach { line ->
 
-        substrings.forEach { substring ->
+        substringsList.forEach { substring ->
 
             /* last index for substring in current line */
-            var substringLastIndex = -1;
+            var substringLastIndex = -1
 
             /* number of substrings in current line */
-            var substringsCounter = -1;
+            var substringsCounter = -1
 
             /* indexOf() will return -1 if there is no more substrings */
             do {
