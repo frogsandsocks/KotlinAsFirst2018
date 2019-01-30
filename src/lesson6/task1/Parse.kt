@@ -150,8 +150,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
 
+    TODO()
+    /*
+    val jumpsList = jumps.split(" ")
+
+    jumpsList
+    */
+}
 
 /**
  * Сложная

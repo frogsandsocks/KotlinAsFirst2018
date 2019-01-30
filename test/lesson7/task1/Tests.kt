@@ -101,6 +101,11 @@ Basic, Ruby, Swift.
         Вывести его в выходной файл с именем outputName, выровняв по центру.""")
         File("temp.txt").delete()
 
+
+        centerFile("input/test.txt", "temp.txt")
+        assertFileContent("temp.txt",
+                '''')
+
     }
 
     @Test

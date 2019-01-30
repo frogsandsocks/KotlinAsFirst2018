@@ -53,22 +53,34 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
+
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
 
+    /* Result map which contains given substrings and their number of occurrences */
     val substringsCount = mutableMapOf<String, Int>()
 
+    /* Read lines from given file */
     File(inputName).readLines().forEach { line ->
 
         substrings.forEach { substring ->
 
-            val count = line.toLowerCase().split(substring.toLowerCase()).size - 1
+            /* last index for substring in current line */
+            var substringLastIndex = 0;
 
-            if (substring in substringsCount) substringsCount[substring] = substringsCount[substring]!! + count
-            else substringsCount[substring] = count
+            /* number of substrings in current line */
+            var substringsCounter = -1;
+
+            /* indexOf() will return -1 if there is no more substrings */
+            while (substringLastIndex != -1) {
+
+                substringLastIndex = line.indexOf(string = substring, startIndex = substringLastIndex + 1, ignoreCase = true)
+                substringsCounter++
+            }
+
+            if (substring in substringsCount) substringsCount[substring] = substringsCount[substring]!! + substringsCounter
+            else substringsCount[substring] = substringsCounter
         }
     }
-
-    substringsCount.map { if (it.key.length == 2) it.value / 2 }
 
     return substringsCount
 }
@@ -112,35 +124,7 @@ fun sibilants(inputName: String, outputName: String) {
 
 fun centerFile(inputName: String, outputName: String) {
 
-    val lineLongest = File(inputName).readLines()
-            .map { it.trim() }
-            .max()
-            ?.count()
-            ?: 0
-
-    var firstLine = true
-
-    File(outputName).bufferedWriter().use {
-
-        File(inputName).readLines().forEach { line ->
-
-            if (!firstLine) it.newLine()
-            else firstLine = false
-
-            val line = line.trim()
-
-            val lengthDelta = lineLongest - line.length
-
-            var spacesRight = lengthDelta / 2
-            val spacesLeft = lengthDelta / 2
-
-            if (lengthDelta % 2 != 0) spacesRight += 1
-
-            it.write(" ".repeat(spacesLeft))
-            it.write(line)
-        }
-    }
-
+    TODO();
 }
 
 
