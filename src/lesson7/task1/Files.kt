@@ -65,17 +65,16 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         substrings.forEach { substring ->
 
             /* last index for substring in current line */
-            var substringLastIndex = 0;
+            var substringLastIndex = -1;
 
             /* number of substrings in current line */
             var substringsCounter = -1;
 
             /* indexOf() will return -1 if there is no more substrings */
-            while (substringLastIndex != -1) {
-
+            do {
                 substringLastIndex = line.indexOf(string = substring, startIndex = substringLastIndex + 1, ignoreCase = true)
                 substringsCounter++
-            }
+            } while (substringLastIndex != -1)
 
             if (substring in substringsCount) substringsCount[substring] = substringsCount[substring]!! + substringsCounter
             else substringsCount[substring] = substringsCounter

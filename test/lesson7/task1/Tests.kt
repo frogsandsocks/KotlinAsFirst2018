@@ -18,7 +18,7 @@ class Tests {
     fun alignFile() {
         alignFile("input/align_in1.txt", 50, "temp.txt")
         assertFileContent("temp.txt",
-"""Для написания разных видов программ сейчас
+                """Для написания разных видов программ сейчас
 применяются разные языки программирования.
 Например, в сфере мобильных программ сейчас правят
 бал языки Swift (мобильные устройства под
@@ -62,6 +62,8 @@ Basic, Ruby, Swift.
                 countSubstrings("input/substrings_in1.txt", listOf("РАЗНЫЕ", "ные", "Неряшливость", "е", "эволюция")))
         assertEquals(mapOf("Карминовый" to 2, "Некрасивый" to 2, "белоглазый" to 1),
                 countSubstrings("input/substrings_in1.txt", listOf("Карминовый", "Некрасивый", "белоглазый")))
+        assertEquals(mapOf("котики" to 2),
+                countSubstrings("input/substrings_in2.txt", listOf("котики")))
     }
 
     @Test
@@ -69,7 +71,7 @@ Basic, Ruby, Swift.
     fun sibilants() {
         sibilants("input/sibilants_in1.txt", "temp.txt")
         assertFileContent("temp.txt",
-"""/**
+                """/**
  * Простая
  *
  * В русском языке, как правило, после букв Ж, Ч, Ш, Щ пишется И, А, У, а не Ы, Я, Ю.
@@ -91,11 +93,11 @@ Basic, Ruby, Swift.
     fun centerFile() {
         centerFile("input/center_in1.txt", "temp.txt")
         assertFileContent("temp.txt",
-"""              Съешь же ещё этих мягких французских булок, да выпей чаю.
+                """              Съешь же ещё этих мягких французских булок, да выпей чаю.
 Широкая электрификация южных губерний даст мощный толчок подъёму сельского хозяйства.
                                         Тест
                                           """ +  // Avoiding trailing whitespaces problem
-"""
+                        """
                                      Hello World
            Во входном файле с именем inputName содержится некоторый текст.
         Вывести его в выходной файл с именем outputName, выровняв по центру.""")
@@ -305,8 +307,8 @@ Basic, Ruby, Swift.
         }
 
         test(19935,
-             111,
-             """
+                111,
+                """
                 19935
              *    111
              --------
@@ -319,8 +321,8 @@ Basic, Ruby, Swift.
         )
 
         test(12345,
-             76,
-             """
+                76,
+                """
                12345
              *    76
              -------
@@ -332,8 +334,8 @@ Basic, Ruby, Swift.
         )
 
         test(12345,
-             6,
-             """
+                6,
+                """
               12345
              *    6
              ------
@@ -356,8 +358,8 @@ Basic, Ruby, Swift.
         }
 
         test(199735,
-             22,
-             """
+                22,
+                """
               19935 | 22
              -198     906
              ----
@@ -372,8 +374,8 @@ Basic, Ruby, Swift.
         )
 
         test(2,
-             20,
-             """
+                20,
+                """
               2 | 20
              -0   0
              --
@@ -382,8 +384,8 @@ Basic, Ruby, Swift.
         )
 
         test(99999,
-             1,
-             """
+                1,
+                """
               99999 | 1
              -9       99999
              --
