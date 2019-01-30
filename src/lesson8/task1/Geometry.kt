@@ -1,11 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson8.task1
 
 import lesson1.task1.sqr
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import java.lang.IllegalArgumentException
+import kotlin.math.*
 
 /**
  * Точка на плоскости
@@ -33,7 +32,8 @@ class Triangle private constructor(private val points: Set<Point>) {
 
     val c: Point get() = pointList[2]
 
-    constructor(a: Point, b: Point, c: Point): this(linkedSetOf(a, b, c))
+    constructor(a: Point, b: Point, c: Point) : this(linkedSetOf(a, b, c))
+
     /**
      * Пример: полупериметр
      */
@@ -76,14 +76,14 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double = max(0.0, center.distance(other.center) - other.radius - radius)
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = center.distance(p) <= radius
 }
 
 /**
@@ -103,7 +103,31 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+
+    if (points.count() < 2) throw IllegalArgumentException()
+
+    var segmentBegin = points[0]
+    var segmentEnd = points[1]
+
+    var maxDistance = 0.0
+
+    points.forEach { firstPoint ->
+        points.forEach { secondPoint ->
+
+            val distanceBetween = firstPoint.distance(secondPoint)
+
+            if (distanceBetween > maxDistance) {
+                maxDistance = distanceBetween
+
+                segmentBegin = firstPoint
+                segmentEnd = secondPoint
+            }
+        }
+    }
+
+    return Segment(segmentBegin, segmentEnd)
+}
 
 /**
  * Простая
@@ -124,7 +148,7 @@ class Line private constructor(val b: Double, val angle: Double) {
         require(angle >= 0 && angle < PI) { "Incorrect line angle: $angle" }
     }
 
-    constructor(point: Point, angle: Double): this(point.y * cos(angle) - point.x * sin(angle), angle)
+    constructor(point: Point, angle: Double) : this(point.y * cos(angle) - point.x * sin(angle), angle)
 
     /**
      * Средняя
