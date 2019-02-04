@@ -243,7 +243,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 чему же должно быть равно значение `x`, что приведёт к ошибке:
 
 ```
-'if' must have both main and 'else' branches if used as an expression.
+'if' must have both exam.main and 'else' branches if used as an expression.
 ```
 
 В переводе с английского --

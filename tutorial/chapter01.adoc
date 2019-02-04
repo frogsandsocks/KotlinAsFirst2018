@@ -314,7 +314,7 @@ fun solveQuadraticEquation(a: Double, b: Double, c: Double) /* no result */ {
 
 [source,kotlin]
 ----
-fun main(args: Array<String>) {
+fun exam.main(args: Array<String>) {
     // Решаем x^2 - 3*x + 2 = 0
     val x1x2 = quadraticRootProduct(1.0, -3.0, 2.0)
     println("Root product: $x1x2")
@@ -323,14 +323,14 @@ fun main(args: Array<String>) {
 
 Единственный параметр `args` главной функции имеет тип `Array<String>`, то есть __массив__ строк.
 О массивах и об использовании параметра `args` главной функции мы поговорим позже.
-Результата главная функция не имеет. По правилам Котлина (и Java) она всегда обязана называться `main`.
+Результата главная функция не имеет. По правилам Котлина (и Java) она всегда обязана называться `exam.main`.
 Для быстрого ввода заголовка главной функции в Intellij IDEA можно ввести в редактор специальную строку **psvm**
 с последующим нажатием клавиши **Enter**.
 
 Данная короткая программа использует функцию `quadraticRootProduct`, определённую выше,
 для вычисления произведения корней квадратного уравнения, после чего выводит это произведение на консоль.
 Для того, чтобы её запустить, в Intellij IDEA достаточно щёлкнуть мышью на зелёный треугольник
-слева от заголовка функции `main`.
+слева от заголовка функции `exam.main`.
 Поскольку корни данного уравнения равны 1.0 и 2.0, после запуска программы на консоли мы увидим строчку
 
 ----
@@ -405,7 +405,7 @@ class Tests {
 
 [source,kotlin]
 ----
-fun main(args: Array<String>) {
+fun exam.main(args: Array<String>) {
     println("sqr(0) = ${sqr(0)}")
     println("sqr(4) = ${sqr(4)}")
 }
@@ -456,13 +456,13 @@ Actual   : <another>
 Expected -- это ожидаемое значение результата, а Actual -- реально полученное.
 Исправьте все ошибки и добейтесь прохождения теста.
 
-Внутри файла `srс/lesson1/task1/Simple.kt` добавьте главную функцию `main`.
+Внутри файла `srс/lesson1/task1/Simple.kt` добавьте главную функцию `exam.main`.
 Вызовите в ней написанную вами функцию с произвольными аргументами и выведите результат на консоль с помощью `println`,
 например:
 
 [source,kotlin]
 ----
-fun main(args: Array<String>) {
+fun exam.main(args: Array<String>) {
     val result = doSomething(42)
     println("Result: $result")
 }

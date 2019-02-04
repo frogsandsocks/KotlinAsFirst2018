@@ -126,7 +126,7 @@ class Square(val column: Int, val row: Int)
 
 [source,kotlin]
 ----
-fun main(args: Array<String>) {
+fun exam.main(args: Array<String>) {
     val first = Square(3, 6)
     val second = Square(3, 6)
     println(first == second)
@@ -157,7 +157,7 @@ data class Square(val column: Int, val row: Int)
 
 [source,kotlin]
 ----
-fun main(args: Array<String>) {
+fun exam.main(args: Array<String>) {
     val first = Square(3, 6)
     println(first)
 }
@@ -217,7 +217,7 @@ data class Segment(val begin: Point, val end: Point) {
 
 [source,kotlin]
 ----
-fun main(args: Array<String>) {
+fun exam.main(args: Array<String>) {
     val t = Triangle(Point(0.0, 0.0), Point(3.0, 0.0), Point(0.0, 4.0))
     println(t.b.x) // 3.0
 }

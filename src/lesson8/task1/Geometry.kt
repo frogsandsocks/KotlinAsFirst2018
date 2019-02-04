@@ -103,6 +103,7 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
+
 fun diameter(vararg points: Point): Segment {
 
     if (points.count() < 2) throw IllegalArgumentException()
@@ -127,6 +128,49 @@ fun diameter(vararg points: Point): Segment {
     }
 
     return Segment(segmentBegin, segmentEnd)
+}
+
+
+/*
+fun diameter(vararg points: Point): Segment {
+
+    if (points.count() < 2) throw IllegalArgumentException()
+
+    var pointLeftmost = Point(points[0].x, points[0].y)
+
+    points.forEach { if (it.x < pointLeftmost.x) pointLeftmost = it }
+
+    val angles = mutableMapOf<Point, Int>()
+
+    val comparedPointsCenter = Point(pointLeftmost.x, pointLeftmost.y - 1)
+
+
+    for (i in 1 until points.size) {
+
+        val segmentFirst = comparedPointsCenter.distance(i)
+        val segmentSecond = comparedPointsCenter.distance(pointLeftmost)
+
+        val scalarProduct = ()
+    }
+}
+*/
+
+
+fun main(args: Array<String>) {
+
+    val left = Point(0.0, 5.0)
+    val comp = Point(0.0, 0.0)
+    val now = Point(5.0, 0.0)
+
+    val firstSegment = comp.distance(left)
+    val secondSegment = comp.distance(now)
+
+    val scalarProduct = (left.x - comp.x) * (now.x - comp.x) + (left.y - comp.y) * (now.y - comp.y)
+
+    val cosAngle = scalarProduct / (firstSegment * secondSegment)
+    val getAngle = acos(cosAngle) * 180
+
+    print(getAngle)
 }
 
 /**
