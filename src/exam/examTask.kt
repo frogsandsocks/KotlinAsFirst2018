@@ -9,13 +9,18 @@ fun setsIntersect(inputName: String, expr: String): Set<Int> {
 
 
     /* Checking arguments for correctness */
-    File(inputName).readLines().forEach {
 
-        if (!(Regex("""[A-Z]\s=(\s(-*)[0-9]+,)*\s[0-9]""")).matches(it)) {
-            throw IllegalArgumentException()
+    try {
+        File(inputName).readLines().forEach {
+
+            if (!(Regex("""[A-Z]\s=(\s(-*)[0-9]+,)*\s[0-9]""")).matches(it)) {
+                throw IllegalArgumentException()
+            }
         }
-
+    } catch (e: IOException) {
+        throw IOException("Unable to read file $inputName")
     }
+
 
     /* Creating a map with given sets and their names */
     var setsMap = mutableMapOf<String, Set<Int>>()
@@ -36,7 +41,6 @@ fun setsIntersect(inputName: String, expr: String): Set<Int> {
 
         /* Add new set to the map */
         setsMap[setName] = setCurrent
-
     }
 
 
